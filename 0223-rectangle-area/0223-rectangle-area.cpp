@@ -12,6 +12,6 @@ public:
             toSub = (long long)x_dist * y_dist;
         }
 
-        return (int)(area1 + area2 - toSub);   
+        return (area1 + area2 - toSub);   
     }
 };
