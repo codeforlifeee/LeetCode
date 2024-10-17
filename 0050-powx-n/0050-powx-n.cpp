@@ -2,19 +2,19 @@ class Solution {
 public:
     double myPow(double x, int n) {
         
-         long long N = n;  // Use long long to handle large negative values
+         long long N = n; 
         if (N < 0) {  
-            x = 1 / x;  // Take reciprocal for negative powers
-            N = -N;     // Work with positive exponent now
+            x = 1 / x; 
+            N = -N;   
         }
 
-        double ans = 1.0;  // Initialize answer
+        double ans = 1.0; 
 
         while (N > 0) {
-            if (N % 2 == 1) {  // If N is odd
+            if (N % 2 == 1) { 
                 ans *= x;
                 N -= 1;
-            } else {  // If N is even
+            } else {
                 x *= x;
                 N /= 2;
             }
