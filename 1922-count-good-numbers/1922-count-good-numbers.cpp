@@ -19,6 +19,6 @@ public:
         long long count_of_4s = n / 2; 
         long long count_of_5s = n - count_of_4s;
         long long result = (power(4, count_of_4s) * power(5, count_of_5s)) % p;
-        return (int)result;
+        return result;
     }
 };
