@@ -1,21 +1,19 @@
 class Solution {
 public:
     bool isValid(string s) {
-         stack<char> st; // create an empty stack to store opening brackets
-        for (char c : s) { // loop through each character in the string
-            if (c == '(' || c == '{' || c == '[') { // if the character is an opening bracket
-                st.push(c); // push it onto the stack
-            } else { // if the character is a closing bracket
-                if (st.empty() || // if the stack is empty or 
-                    (c == ')' && st.top() != '(') || // the closing bracket doesn't match the corresponding opening bracket at the top of the stack
-                    (c == '}' && st.top() != '{') ||
-                    (c == ']' && st.top() != '[')) {
-                    return false; // the string is not valid, so return false
-                }
-                st.pop(); // otherwise, pop the opening bracket from the stack
-            }
+        
+        stack<char>st;
+    for(auto it: s){
+        if(it=='(' || it=='{' || it == '[') st.push(it);
+        else{
+            if(st.size()==0) return false;
+            char ch = st.top();
+            st.pop();
+            if((it == ')' and ch == '(') or  (it == ']' and ch == '[') or (it == '}' and ch == '{')) continue;
+            else return false;
         }
-        return st.empty(); 
+    }
+    return st.empty();
         
     }
 };
