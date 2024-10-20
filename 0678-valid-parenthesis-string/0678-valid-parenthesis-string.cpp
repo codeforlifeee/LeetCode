@@ -1,8 +1,8 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        stack<int> openstack;  // Stack to store the indices of '('
-        stack<int> starstack;  // Stack to store the indices of '*'
+        stack<int> openstack;  
+        stack<int> starstack;  
         
         for (int i = 0; i < s.size(); i++) {
             if (s[i] == '(') {
@@ -12,26 +12,23 @@ public:
             } else {
                 // Handling ')'
                 if (!openstack.empty()) {
-                    openstack.pop();  // Use '(' to match ')'
+                    openstack.pop();  
                 } else if (!starstack.empty()) {
-                    starstack.pop();  // Use '*' to match ')'
+                    starstack.pop(); 
                 } else {
-                    return false;  // No matching '(' or '*'
+                    return false;  
                 }
             }
         }
-
-        // Handle remaining '(' and '*'
         while (!openstack.empty() && !starstack.empty()) {
             if (openstack.top() < starstack.top()) {
                 openstack.pop();
                 starstack.pop();
             } else {
-                return false;  // Invalid if '(' index is greater than '*' index
+                return false;
             }
         }
 
-        // If there are no unmatched '(', return true
         return openstack.empty();
     }
 };
