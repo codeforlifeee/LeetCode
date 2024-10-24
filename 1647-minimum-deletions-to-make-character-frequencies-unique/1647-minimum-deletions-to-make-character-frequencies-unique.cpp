@@ -1,32 +1,24 @@
 class Solution {
 public:
     int minDeletions(string s) {
-           unordered_map<char, int> freq;  // Frequency map
-
-    // Step 1: Count the frequency of each character
-    for (char c : s) {
-        freq[c]++;
-    }
-
-    set<int> usedFreq;  // Set to store unique frequencies
-    int deletions = 0;
-
-    // Step 2: Iterate through each character's frequency
-    for (auto& entry : freq) {
-        int currentFreq = entry.second;
-
-        // Keep reducing the frequency until it's unique
-        while (currentFreq > 0 && usedFreq.find(currentFreq) != usedFreq.end()) {
-            currentFreq--;
-            deletions++;  // Increment the number of deletions
+        
+        int freq[26] = {0};
+        for(char &ch : s){
+            freq[ch-'a']++;
         }
+        int result = 0;
+        unordered_set<int>st;
+        for(int i = 0; i<26;i++){
+            while(freq[i]>0 && st.find(freq[i]) != st.end()){
 
-        // Store the unique frequency in the set
-        if (currentFreq > 0) {
-            usedFreq.insert(currentFreq);
+            freq[i] -= 1;
+            result++;
         }
-    }
-
-    return deletions;
+        st.insert(freq[i]);
+        }
+ return result;
+    
+    
+        
     }
 };
