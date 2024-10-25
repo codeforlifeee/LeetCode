@@ -23,7 +23,7 @@ public:
             return false;
         }
 
-        std::vector<int> vec1, vec2;
+        vector<int> vec1, vec2;
         for (char ch : set1) {
             vec1.push_back(freq1[ch]);
             vec2.push_back(freq2[ch]);
