@@ -1,21 +1,24 @@
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>>sets;//stores all the subsets
-        int n= nums.size();
-        int subsetCount = 1<<n;//2^n
-        
-        for(int i = 0; i<subsetCount; i++){
-            vector<int>subset;
-            for(int j = 0; j<n; j++){
-                if(i & (1<<j)){//checking if jth bit of i is set or not
-                    subset.push_back(nums[j]);
-                }
-            }
-            sets.push_back(subset);
+    vector<vector<int>> result;
+
+    void solve(vector<int>& nums, int idx, vector<int>& temp) {
+        if(idx >= nums.size()) {
+            result.push_back(temp);
+            return;
         }
-        return sets;
-        
-        
+
+        temp.push_back(nums[idx]);
+        solve(nums, idx+1, temp);
+        temp.pop_back();
+        solve(nums, idx+1, temp);
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> temp;
+
+        solve(nums, 0, temp);
+
+        return result;
     }
 };
