@@ -1,42 +1,27 @@
 class Solution {
 public:
-    int minCoinsToGetS(vector<int>& coins, int n, int S, vector<vector<int>>& t) {
-        if(t[n][S] != -1)
-            return t[n][S];
-        
-        if(n == 0)
-            return INT_MAX-1;
-        if(S == 0)
+    int arr[10001];
+    int helper(int n){
+        if(n==0){
             return 0;
-        if(n == 1) {
-            if(S % coins[0] == 0)
-                return t[n][S] = S/coins[0];
-                //return S/coins[0];
-
-            else
-                return t[n][S] = INT_MAX-1;
-                //return INT_MAX-1;
-
+        }
+        if(arr[n] != -1){
+            return arr[n];
+        }
+        int minCount = INT_MAX;
+        
+        for(int i= 1; i*i <= n; i++){
+            int result = 1 + helper(n- i*i);
+            minCount = min(minCount, result);
         }
         
-        if(coins[n-1] <= S) {
-            return t[n][S] = min(1 + minCoinsToGetS(coins, n, S-coins[n-1], t), minCoinsToGetS(coins, n-1, S, t));
-                        //return min(1 + minCoinsToGetS(coins, n, S-coins[n-1], t), minCoinsToGetS(coins, n-1, S, t));
-        } else
-            return t[n][S] = minCoinsToGetS(coins, n-1, S, t);
-                    //return minCoinsToGetS(coins, n-1, S, t);
-
+        return arr[n] = minCount;
     }
-    
-    int numSquares(int S) {
-        vector<int> coins;
-        for(int i = 1; i*i<=S; i++) {
-            coins.push_back(i*i);
-        }
-        int n = coins.size();
+    int numSquares(int n) {
         
-        vector<vector<int>> t(n+1, vector<int>(S+1, -1));
-        return minCoinsToGetS(coins, n, S, t);
+        memset(arr, -1, sizeof(arr));
+        
+        return helper(n);
+        
     }
 };
-
