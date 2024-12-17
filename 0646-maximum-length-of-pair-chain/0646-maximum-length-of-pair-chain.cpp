@@ -2,7 +2,7 @@ class Solution {
 public:
     int n;
     int t[1001][1001];
-    int lis(vector<vector<int>>& nums, int prev_idx, int curr_idx) {
+    int lis(vector<vector<int>>& nums, int prev_idx, int curr_idx){
        if(curr_idx == n)
            return 0;
         
@@ -24,6 +24,7 @@ public:
     int findLongestChain(vector<vector<int>>& pairs) {
         memset(t, -1, sizeof(t));
         n = pairs.size();
+        //lis code is used here//
         sort(pairs.begin(), pairs.end());
         return lis(pairs, -1, 0);
         
