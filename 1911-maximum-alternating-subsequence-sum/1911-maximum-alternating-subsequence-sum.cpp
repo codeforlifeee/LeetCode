@@ -5,6 +5,16 @@ public:
         int n = nums.size();
         
         vector<vector<ll>> t(n+1, vector<ll>(2,0));
+        
+        /*
+Row 1: [0, 0]
+Row 2: [0, 0]
+Row 3: [0, 0]
+Row 4: [0, 0]
+Row 5: [0, 0]
+Row 6: [0, 0]
+
+        */
         //even: 0, odd : 1
         
         for(int i = 1; i< n+1; i++){
