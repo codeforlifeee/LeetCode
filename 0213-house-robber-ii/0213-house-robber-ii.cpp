@@ -1,49 +1,30 @@
 class Solution {
 public:
-    int n;
-    
+    int solve(vector<int>&nums, int l, int r){
+        int prev = 0;
+        int prevprev = 0;
+        
+        for(int i = l ; i<=r; i++){
+            int skip = prev;
+            int take = nums[i] + prevprev;
+            
+            int temp = max(skip, take);
+            
+            prevprev = prev;
+            prev = temp;
+        }
+        return prev;
+    }
     int rob(vector<int>& nums) {
         int n = nums.size();
         
-        if(n == 1) return nums[0];
+        if(n==1) return nums[0];
+        if(n==2) return max(nums[0],nums[1]);
         
-        vector<int>t(n+1, 0);
-        //t[i] = money stolen when you have i houses
+        int take_first_house = solve(nums, 0, n-2);
+        int skip_first_house = solve(nums, 1, n-1);
         
-        t[0] = 0;
+        return max(take_first_house, skip_first_house);
         
-        int result1 = 0;
-        int result2 = 0;
-        
-        //case 1 : skipping last house
-        for(int i = 1; i<= n-1; i++){
-            int skip = t[i-1];
-            
-            int take = nums[i-1] + ((i-2 >= 0) ? t[i-2] : 0);
-            
-            t[i] = max(skip, take);
-            
-        }
-        
-        result1 = t[n-1];
-        
-        t.clear();
-        
-        //case 2 : taking last house
-        t[0] = 0;
-        t[1] = 0;
-        
-         for(int i = 2; i<= n; i++){
-            int skip = t[i-1];
-            
-            int take = nums[i-1] + ((i-2 >= 0) ? t[i-2] : 0);
-             
-            t[i] = max(skip, take);
-            
-        }
-        
-        result2 = t[n];
-        
-        return max(result1, result2);
     }
 };
