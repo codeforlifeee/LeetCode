@@ -1,18 +1,23 @@
 class Solution {
 public:
     char findTheDifference(string s, string t) {
-        char ch;
         
-        sort(s.begin(), s.end());
-        sort(t.begin(), t.end());
+        vector<char> characters;
+        char ans=0;
         
-        int n = t.length();
-        
-        for(int i = 0;i<n; i++){
-            if(s[i] != t[i]){
-                return t[i];
-            }
+        for(char ch: s){
+            characters.push_back(ch);
         }
-        return t[n - 1];
+        
+        for(char ch: t){
+            characters.push_back(ch);
+        }
+        
+        for(int i = 0;i<characters.size();i++){
+            ans = ans ^ characters[i];
+            
+        }
+        return ans;
+        
     }
 };
