@@ -1,23 +1,15 @@
 class Solution {
 public:
     char findTheDifference(string s, string t) {
-        
-        vector<char> characters;
-        char ans=0;
-        
+        int sn = 0, tn = 0;
         for(char ch: s){
-            characters.push_back(ch);
+            sn = sn + (int)ch;
         }
-        
         for(char ch: t){
-            characters.push_back(ch);
+            tn = tn + (int)ch;
         }
         
-        for(int i = 0;i<characters.size();i++){
-            ans = ans ^ characters[i];
-            
-        }
-        return ans;
+        return char(tn-sn);
         
     }
 };
