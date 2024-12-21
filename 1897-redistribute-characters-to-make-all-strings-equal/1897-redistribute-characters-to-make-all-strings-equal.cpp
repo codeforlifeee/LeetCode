@@ -1,25 +1,20 @@
 class Solution {
 public:
     bool makeEqual(vector<string>& words) {
-        int n = words.size();
+         int n = words.size();
+        int count[26] = {0};
         
-        string con = "";
-        
-        for(string s : words){
-            con = con + s;
-        }
-        
-        sort(con.begin(), con.end());
-        unordered_map<char, int>freq_map;
-        for (char c : con){
-            freq_map[c]++;
-        }
-        
-        for(auto entry : freq_map){
-            if(entry.second%n != 0){
-                return false; 
+        for (string &word : words) {
+            for (char &ch : word) {
+                ++count[ch - 'a'];
             }
         }
-        return true; 
+        
+        auto lambda = [&](int c) {
+                   return c % n == 0;
+        };
+        
+        return all_of(begin(count), end(count), lambda);
+        
     }
 };
