@@ -15,7 +15,7 @@ public:
             freq_map[c]++;
         }
         
-        for(const auto& entry : freq_map){
+        for(auto entry : freq_map){
             if(entry.second%n != 0){
                 return false; 
             }
