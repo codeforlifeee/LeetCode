@@ -1,19 +1,16 @@
 class Solution {
 public:
     int maxLengthBetweenEqualCharacters(string s) {
-        unordered_map<char,int>firstoccur;
-        int maxi = -1;
-
-        for(int i = 0;i<s.length();i++){
-            char c = s[i];
-
-            if(firstoccur.find(c) != firstoccur.end()){
-                int length = i - firstoccur[c]-1;
-                maxi = max(maxi, length);
-            } else {
-                firstoccur[c] = i;
+        int n = s.length();
+        int result = -1;
+        
+        for(int i = 0; i<=n-2;i++){
+            for(int j = i+1; j<n;j++){
+                if(s[i] == s[j]){
+                    result = max(result, j-i-1);
+                }
             }
         }
-        return maxi;
+        return result;
     }
 };
