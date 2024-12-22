@@ -57,7 +57,7 @@ public:
             
             result += (size) * (remainingNodes-size);
             
-            remainingNodes -= size;
+            remainingNodes = remainingNodes - size;
             
         }
         
