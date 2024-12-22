@@ -41,13 +41,9 @@ public:
 	    }
 
 	}
+        int maxTime = *max_element(result.begin() + 1, result.end());
         
-        int ans = INT_MIN;
-        
-        for(int i = 1; i <= n; i++)
-            ans = max(ans, result[i]);
-        
-	    return ans == INT_MAX ? -1 : ans;
+        return maxTime == INT_MAX ? -1 : maxTime;
         
     }
 };
