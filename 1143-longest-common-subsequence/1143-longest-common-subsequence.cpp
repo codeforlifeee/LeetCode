@@ -1,7 +1,7 @@
 class Solution {
 public:
     int longestCommonSubsequence(string s1, string s2) {
-         int m = s1.length();
+        int m = s1.length();
         int n = s2.length();
         
         vector<vector<int>> t(m+1, vector<int>(n+1));
