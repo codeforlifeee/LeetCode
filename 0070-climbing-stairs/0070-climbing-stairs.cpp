@@ -9,7 +9,7 @@ public:
          
         if(n==1) return 1;
         if(n==2) return 2;
-        if(n==3) return 3;
+        //if(n==3) return 3;
         
         return t[n] = solve(n-1) + solve(n-2);
     }
