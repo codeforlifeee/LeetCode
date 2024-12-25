@@ -5,9 +5,11 @@ public:
     int solve(vector<int>& days, vector<int>& costs, int index) {
         int n = days.size();
         
+         if(t[index] != -1) return t[index];
+        
         if(index >= n) return 0;
         
-        if(t[index] != -1) return t[index];
+       
 
         int cost1 = costs[0] + solve(days, costs, index + 1);
         
