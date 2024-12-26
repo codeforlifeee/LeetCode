@@ -22,6 +22,7 @@ public:
         }
         return t[i][k] =  max(taken, nottaken);
     }
+    
     int maxValueOfCoins(vector<vector<int>>& piles, int k) {
         n = piles.size();
         memset(t,-1,sizeof(t));
