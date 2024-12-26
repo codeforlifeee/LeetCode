@@ -1,18 +1,20 @@
 class Solution {
 public:
+    int solve(int i, int j, string &s, vector<vector<int>>& t) {
+        if(i >= j) return 0;
+        
+        if(t[i][j] != -1) return t[i][j];
+        
+        if(s[i] == s[j]) return t[i][j] = solve(i + 1, j - 1, s, t);
+        
+        return t[i][j] = 1 + min(solve(i, j - 1, s, t), solve(i + 1, j, s, t));
+    }
+    
     int minInsertions(string s) {
         int n = s.length();
         
-        vector<vector<int>>t(n, vector<int>(n,0));
+        vector<vector<int>> t(n, vector<int>(n, -1));
         
-        for(int L = 2; L<=n; L++){
-            for(int i = 0; i<n-L+1; i++){
-                int j= i+L-1;
-                
-                if(s[i] == s[j]) t[i][j] = t[i+1][j-1];
-                else t[i][j] = 1 + min(t[i][j-1],t[i+1][j]);
-            }
-        }
-        return t[0][n-1];
+        return solve(0, n - 1, s, t);
     }
 };
