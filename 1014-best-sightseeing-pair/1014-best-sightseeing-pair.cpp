@@ -1,21 +1,15 @@
 class Solution {
 public:
     int maxScoreSightseeingPair(vector<int>& values) {
-        int n = values.size();
-
-        int result = 0;
-
-        int max_till_now = values[0]+0; //this stores the max value of (values[i]+i) till now
-
-        for(int j = 1; j < n; j++) {
-            int x = values[j]-j;
-            int y = max_till_now;
-
-            result = max(result, x+y);
-
-            max_till_now = max(max_till_now, values[j]+j);
+        priority_queue<int>pq;//maxheap
+        int ans = 0;
+        
+        for(int i = 0; i<values.size(); i++){
+            if(!pq.empty()){
+                ans = max(ans, pq.top() + values[i]-i);
+            }
+            pq.push(values[i] + i);
         }
-
-        return result;
+        return ans;
     }
 };
