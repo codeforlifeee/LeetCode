@@ -1,7 +1,6 @@
 class Solution {
 public:
     const int M = 1e9+7;
-    int count = 0;
     int t[100001];
     int solve(int low, int high,int zero, int one,int l){
         
@@ -9,10 +8,10 @@ public:
         
         if(t[l] != -1) return t[l];
         
-        int count = (l >= low) ? 1 : 0;
+        int count = (l >= low && l <= high) ? 1 : 0;
         
-        int add0 = solve(low, high, zero, one, l + zero);
-        int add1 = solve(low, high, zero, one, l + one);
+        int add0 = solve(low, high, zero, one, l + zero)%M;
+        int add1 = solve(low, high, zero, one, l + one)%M;
 
         return t[l] = (count + add0 + add1)%M;
         
