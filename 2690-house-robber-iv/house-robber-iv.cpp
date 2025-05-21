@@ -1,9 +1,10 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     bool canRob(const vector<int>& nums, int k, int capability) {
-        int count = 0;
-        int i = 0;
-        int n = nums.size();
+        int count = 0, i = 0, n = nums.size();
         while (i < n) {
             if (nums[i] <= capability) {
                 count++;
@@ -16,20 +17,18 @@ public:
     }
 
     int minCapability(vector<int>& nums, int k) {
-        int low = *min_element(nums.begin(), nums.end());
-        int high = *max_element(nums.begin(), nums.end());
-        int ans = high;
+        int low = -1;
+        int high = *max_element(nums.begin(), nums.end()) + 1;
 
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+        while (high - low > 1) {
+            int mid = (low + high) / 2;
             if (canRob(nums, k, mid)) {
-                ans = mid; 
-                high = mid - 1;
+                high = mid;
             } else {
-                low = mid + 1;
+                low = mid;
             }
         }
 
-        return ans;
+        return high;
     }
 };
