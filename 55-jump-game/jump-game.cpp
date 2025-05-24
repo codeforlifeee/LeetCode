@@ -1,23 +1,20 @@
 class Solution {
 public:
-    int t[1000001];
-    
-    int solve(vector<int>&nums, int i){
-       int n = nums.size();
-        
-       if(i >= n-1) return 1;
-        
-        if(t[i] != -1) return t[i];
-        
-       for(int j = 1; j <= nums[i]; j++){
-            if(solve(nums, i + j)){
-                return t[i] = 1;
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        int maxjump = nums[0];
+
+        for(int i = 1; i<n; i++){
+            if(i <= maxjump){
+                maxjump = max(maxjump, i + nums[i]);
             }
         }
-        return t[i] = 0;
-    }
-    bool canJump(vector<int>& nums) {
-        memset(t,-1,sizeof(t));
-        return solve(nums,0);  
+        
+        if(maxjump >= n-1) 
+            return true;
+        
+        return false;
+
+        
     }
 };
