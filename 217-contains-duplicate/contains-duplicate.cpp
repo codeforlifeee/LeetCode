@@ -1,15 +1,12 @@
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        set<int>freq;
+        set<int>st(nums.begin(),nums.end());
 
-        for(int it : nums){
-            if(freq.count(it)){
-                return true;
-            }
-            freq.insert(it);
-        }        
+        int ssize = st.size();
+        int vsize = nums.size();
+
+        return !(ssize == vsize);
         
-        return false;
     }
 };
