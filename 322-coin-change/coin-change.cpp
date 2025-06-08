@@ -1,27 +1,20 @@
 class Solution {
 public:
-    int t[100001];
+    int coinChange(vector<int>& coins, int amount) {
+                // dp[i] will be storing the minimum number of coins required for amount i
+        vector<int> dp(amount + 1, INT_MAX);
+        dp[0] = 0;  // base case: 0 coins needed for amount 0
 
-    int solve(vector<int>& coins, int amount) {
-        if (amount < 0) return INT_MAX;  // Invalid case
-        if (amount == 0) return 0;       // No coins needed to make 0
-
-        if (t[amount] != -1) return t[amount];
-
-        int minCoins = INT_MAX;
-        for (int coin : coins) {
-            int res = solve(coins, amount - coin);
-            if (res != INT_MAX) {
-                minCoins = min(minCoins, res + 1);
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin <= i && dp[i - coin] != INT_MAX) {
+                    dp[i] = min(dp[i], dp[i - coin] + 1);
+                }
             }
         }
 
-        return t[amount] = minCoins;
-    }
+        return dp[amount] == INT_MAX ? -1 : dp[amount];
 
-    int coinChange(vector<int>& coins, int amount) {
-        memset(t, -1, sizeof(t));
-        int result = solve(coins, amount);
-        return result == INT_MAX ? -1 : result;
+        
     }
 };
