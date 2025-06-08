@@ -1,45 +1,38 @@
 class Solution {
 public:
     int longestMountain(vector<int>& arr) {
-    int n = arr.size();
-    if (n < 3) return 0;
+            int n = arr.size();
+    int maxLen = 0;
+    int i = 1;
 
-    // up[i] = length of increasing sequence ending at index i
-    // down[i] = length of decreasing sequence starting at index i
-    vector<int> up(n, 0), down(n, 0);
+    while (i < n - 1) {
+        // Check if current element is a peak
+        if (arr[i - 1] < arr[i] && arr[i] > arr[i + 1]) {
+            int left = i - 1;
+            int right = i + 1;
 
-    // First pass (left to right): compute up[]
-    for (int i = 1; i < n; ++i) {
-        if (arr[i] > arr[i - 1])
-            up[i] = up[i - 1] + 1;
-    }
+            // Expand to the left
+            while (left > 0 && arr[left - 1] < arr[left]) {
+                left--;
+            }
 
-    // Second pass (right to left): compute down[]
-    for (int i = n - 2; i >= 0; --i) {
-        if (arr[i] > arr[i + 1])
-            down[i] = down[i + 1] + 1;
-    }
+            // Expand to the right
+            while (right < n - 1 && arr[right] > arr[right + 1]) {
+                right++;
+            }
 
-    int longest = 0;
+            // Update maximum length
+            maxLen = max(maxLen, right - left + 1);
 
-    // Third pass: check valid mountains
-    for (int i = 0; i < n; ++i) {
-        if (up[i] > 0 && down[i] > 0) {
-            longest = max(longest, up[i] + down[i] + 1);
+            // Move i to the end of the current mountain
+            i = right;
+        } else {
+            i++;
         }
     }
 
-    return longest;
+    return maxLen;
 
-    /*
-     * Time Complexity: O(n)
-     * - First pass to fill up[]: O(n)
-     * - Second pass to fill down[]: O(n)
-     * - Third pass to compute result: O(n)
-     * => Total: O(n)
-     *
-     * Space Complexity: O(n)
-     * - Two extra arrays: up[] and down[]
-     */
+        
     }
 };
