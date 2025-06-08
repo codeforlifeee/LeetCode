@@ -12,3 +12,10 @@ public:
         return false;
     }
 };
+
+
+// //\U0001f9e0 Time & Space:
+// Time: O(n * k)
+
+// Space: O(1)
+
