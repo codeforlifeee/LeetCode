@@ -1,7 +1,7 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-                // dp[i] will be storing the minimum number of coins required for amount i
+        // dp[i] will be storing the minimum number of coins required for amount i
         vector<int> dp(amount + 1, INT_MAX);
         dp[0] = 0;  // base case: 0 coins needed for amount 0
 
