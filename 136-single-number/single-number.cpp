@@ -1,11 +1,18 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        int n = nums.size();
-        int res = nums[0];
-        for(int i = 1; i<n; i++){
-            res =(res ^ nums[i]);
+        unordered_map<int, int> freq;
+        
+        for (int it : nums) {
+            freq[it]++;
         }
-        return res;
+        
+        for (auto it : freq) {
+            if (it.second == 1) {
+                return it.first;
+            }
+        }
+        
+        return -1; // Should never reach here if input meets constraints
     }
 };
