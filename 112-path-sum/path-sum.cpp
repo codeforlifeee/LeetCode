@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (!root) return false;
+
+        // Check if it's a leaf node
+        if (!root->left && !root->right) {
+            return targetSum == root->val;
+        }
+
+        // Recursively check left and right subtrees with updated target
+        int remainingSum = targetSum - root->val;
+        return hasPathSum(root->left, remainingSum) || hasPathSum(root->right, remainingSum);
+    }
+};
