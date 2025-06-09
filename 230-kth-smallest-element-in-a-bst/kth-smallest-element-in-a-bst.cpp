@@ -22,8 +22,6 @@ public:
         vector<int> nums;
         inorder(root, nums);
 
-        return nums[k-1];
-
-        
+        return nums[k-1]; 
     }
 };
