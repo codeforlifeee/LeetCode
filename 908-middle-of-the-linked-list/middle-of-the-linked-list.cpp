@@ -11,16 +11,15 @@
 class Solution {
 public://O(N) // O(1)
     ListNode* middleNode(ListNode* head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
+        vector<ListNode*> nodes;
 
-        // Move fast by 2 and slow by 1 until fast reaches end
-        while (fast != nullptr && fast->next != nullptr) {
-            slow = slow->next;
-            fast = fast->next->next;
+        ListNode* curr = head;
+        while (curr != nullptr) {
+            nodes.push_back(curr);
+            curr = curr->next;
         }
 
-        return slow;  // slow is now at the middle
-
+        int midIndex = nodes.size() / 2;
+        return nodes[midIndex];
     }
 };
