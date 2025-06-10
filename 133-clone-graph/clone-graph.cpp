@@ -34,7 +34,7 @@ public:
         visited[node] = clone;
 
         // Recursively clone all the neighbors
-        for (Node* neighbor : node->neighbors) {
+        for (auto neighbor : node->neighbors) {
             clone->neighbors.push_back(cloneGraph(neighbor));
         }
         return clone;
