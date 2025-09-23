@@ -1,34 +1,23 @@
 class Solution {
 public:
     int canBeTypedWords(string text, string brokenLetters) {
-        int n = text.size();
-        bool mp[26];
+            unordered_set<char> broken(brokenLetters.begin(), brokenLetters.end());
+    stringstream ss(text);
+    string word;
+    int count = 0;
 
-        for(char &ch: brokenLetters){
-            mp[ch-'a'] = true;
-        }
-
-        int result = 0;
-        bool foundBroken = false;
-
-        for(char &ch: text){
-            if(ch == ' '){
-                if(!foundBroken){
-                    result++;
-                }
-                foundBroken = false;
-            }else if(mp[ch-'a']){
-                foundBroken = true;
+    while (ss >> word) {
+        bool canType = true;
+        for (char c : word) {
+            if (broken.count(c)) {
+                canType = false;
+                break;
             }
         }
+        if (canType) count++;
+    }
 
-        if(foundBroken == 0)
-            result++;
-
-        
-        return result;
-
-
+    return count;
 
     }
 };
