@@ -1,17 +1,24 @@
 class Solution {
 public:
     vector<bool> prefixesDivBy5(vector<int>& nums) {
-    vector<bool> result;
-    result.reserve(nums.size());
+            vector<bool> ans;
     
-    int value = 0;  // will store prefix mod 5
-    
-    for(int bit : nums) {
-        value = (value * 2 + bit) % 5;
-        result.push_back(value == 0);
-    }
-    
-    return result;
+    int nextState[5][2] = {
+        {0, 1}, // from remainder 0: adding 0 -> 0, adding 1 -> 1
+        {2, 3}, // from remainder 1
+        {4, 0}, // from remainder 2
+        {1, 2}, // from remainder 3
+        {3, 4}  // from remainder 4
+    };
 
+    int state = 0;
+    for (int bit : nums) {
+        state = nextState[state][bit];
+        ans.push_back(state == 0);
+    }
+
+    return ans;
+
+        
     }
 };
