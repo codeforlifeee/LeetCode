@@ -1,47 +1,35 @@
 class Solution {
 public:
-    int maxSumDivThree(vector<int>& nums) {
-        int sum = 0;
+    vector<vector<int>> memo;
+    vector<int> nums;
+    int n;
 
-        vector<int> rem1;
-        vector<int> rem2;
-
-        for (int &num : nums) {
-            sum += num;
-            if (num % 3 == 1) {
-                rem1.push_back(num);
-            } else if (num % 3 == 2) {
-                rem2.push_back(num);
-            }
+    int dfs(int i, int r) {
+        if (i == n) {
+            // If remainder is zero, valid sum = 0
+            return (r == 0 ? 0 : INT_MIN/2);
         }
 
-        if (sum % 3 == 0) return sum;
+        if (memo[i][r] != INT_MIN) 
+            return memo[i][r];
 
-        sort(rem1.begin(), rem1.end());
-        sort(rem2.begin(), rem2.end());
+        // Option 1: Skip current element
+        int skip = dfs(i + 1, r);
 
-        int rem = sum % 3;
-        int res = 0;
+        // Option 2: Take current element
+        int take = nums[i] + dfs(i + 1, (r + nums[i]) % 3);
 
-        if (rem == 1) {
-            // Option 1: remove one element of remainder 1
-            int remove1 = (rem1.size() >= 1 ? rem1[0] : INT_MAX);
+        // Best of both
+        return memo[i][r] = max(take, skip);
+    }
 
-            // Option 2: remove two elements of remainder 2
-            int remove2 = (rem2.size() >= 2 ? rem2[0] + rem2[1] : INT_MAX);
+    int maxSumDivThree(vector<int>& arr) {
+        nums = arr;
+        n = nums.size();
 
-            res = sum - min(remove1, remove2);
-        } 
-        else { // rem == 2
-            // Option 1: remove one element of remainder 2
-            int remove1 = (rem2.size() >= 1 ? rem2[0] : INT_MAX);
+        memo.assign(n, vector<int>(3, INT_MIN));
 
-            // Option 2: remove two elements of remainder 1
-            int remove2 = (rem1.size() >= 2 ? rem1[0] + rem1[1] : INT_MAX);
-
-            res = sum - min(remove1, remove2);
-        }
-
-        return res;
+        int ans = dfs(0, 0);
+        return ans < 0 ? 0 : ans;
     }
 };
