@@ -1,11 +1,6 @@
 class Solution {
 public:
     int smallestRepunitDivByK(int K) {
-        if(K == 1)
-            return 1;
-        if(K%2 == 0 || K%5 == 0)
-            return -1;
-        
         int remain = 0;
         for(int i = 1; i<=K; i++) {
             remain = (remain*10 + 1)%K; //remainder will never exceed k-1, hence avoiding integer overflow
