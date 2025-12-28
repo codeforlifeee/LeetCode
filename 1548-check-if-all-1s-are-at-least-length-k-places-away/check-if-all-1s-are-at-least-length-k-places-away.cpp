@@ -1,20 +1,18 @@
 class Solution {
 public:
     bool kLengthApart(vector<int>& nums, int k) {
-                int n = nums.size();
+        int zeroCount = k;  // initialize to k so first 1 is always valid
         
-        int lastOne = -(k+1);
-
-        for(int i = 0; i < n; i++) {
-            if(nums[i] == 1) {
-                if(i - lastOne - 1 < k)
+        for (int num : nums) {
+            if (num == 0) {
+                zeroCount++;
+            } else { // num == 1
+                if (zeroCount < k) {
                     return false;
-                
-                lastOne = i;
+                }
+                zeroCount = 0;
             }
         }
-
         return true;
-
     }
 };
