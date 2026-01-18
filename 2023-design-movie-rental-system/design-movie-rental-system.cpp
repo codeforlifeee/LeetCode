@@ -1,17 +1,3 @@
-// Approach (Set for ordered storage, Unordered Map for quick lookup)
-// T.C. : 
-// MovieRentingSystem() -> O(n log n) for n entries (insert each entry into sets)
-// search(movie)        -> O(5) i.e. constant. We access the movie set in O(1) from map and then return first 5 elements
-// rent(shop, movie)    -> O(log m + log r) per operation
-//                         (log m to erase from available[movie], log r to insert into rented, r = total rented movies)
-// drop(shop, movie)    -> O(log m + log r) per operation
-// report()             -> O(5) i.e. constant
-
-// S.C. : 
-// O(n + r) total
-// available          -> O(n) (sum of all available movies)
-// movieToShopPrice   -> O(n) (sum of all shop-price pairs)
-// rented             -> O(r) (r = total rented movies)
 class MovieRentingSystem {
 public:
     typedef pair<int, int> P;
