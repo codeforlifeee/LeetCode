@@ -1,7 +1,3 @@
-
-//Approach-2 (O(1) space using two pointers)
-//T.C : O(n^2)
-//S.C : O(1)
 class Solution {
 public:
     int triangularSum(vector<int>& nums) {
