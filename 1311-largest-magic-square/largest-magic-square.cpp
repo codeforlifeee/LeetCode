@@ -1,52 +1,78 @@
 class Solution {
 public:
     int largestMagicSquare(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
-        
-        // prefix sums for rows and columns
-        vector<vector<int>> row(m, vector<int>(n + 1, 0));
-        vector<vector<int>> col(m + 1, vector<int>(n, 0));
-        
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                row[i][j + 1] = row[i][j] + grid[i][j];
-                col[i + 1][j] = col[i][j] + grid[i][j];
+        int rows = grid.size();
+        int cols = grid[0].size();
+
+        // Row wise Prefix Sum
+        vector<vector<int>> rowCumsum(rows, vector<int>(cols));
+        for (int i = 0; i < rows; ++i) {
+            rowCumsum[i][0] = grid[i][0];
+            for (int j = 1; j < cols; ++j) {
+                rowCumsum[i][j] = rowCumsum[i][j - 1] + grid[i][j];
             }
         }
-        
-        // try sizes from largest to smallest
-        for (int k = min(m, n); k >= 2; k--) {
-            for (int i = 0; i + k <= m; i++) {
-                for (int j = 0; j + k <= n; j++) {
-                    
-                    int target = row[i][j + k] - row[i][j];
-                    bool ok = true;
-                    
-                    // check rows
-                    for (int r = i; r < i + k && ok; r++) {
-                        if (row[r][j + k] - row[r][j] != target)
-                            ok = false;
+
+        // Column wise Prefix Sum
+        vector<vector<int>> colCumsum(rows, vector<int>(cols));
+        for (int j = 0; j < cols; ++j) {
+            colCumsum[0][j] = grid[0][j];
+            for (int i = 1; i < rows; ++i) {
+                colCumsum[i][j] = colCumsum[i - 1][j] + grid[i][j];
+            }
+        }
+
+        // I am iterating from largest side to smallest because
+        // as soon as I get a magic square, it will be largest and I will return from there
+        for (int side = min(rows, cols); side >= 2; side--) {
+            
+            // Check square of length = side starting from all possible cells
+            for (int i = 0; i + side - 1 < rows; ++i) {
+                for (int j = 0; j + side - 1 < cols; ++j) {
+
+                    int targetSum = rowCumsum[i][j + side - 1] - (j > 0 ? rowCumsum[i][j - 1] : 0);
+
+                    bool allSame = true;
+
+                    // Check rows
+                    for (int r = i + 1; r < i + side; ++r) {
+                        int rowSum = rowCumsum[r][j + side - 1] - (j > 0 ? rowCumsum[r][j - 1] : 0);
+                        if (rowSum != targetSum) {
+                            allSame = false;
+                            break;
+                        }
                     }
-                    
-                    // check columns
-                    for (int c = j; c < j + k && ok; c++) {
-                        if (col[i + k][c] - col[i][c] != target)
-                            ok = false;
+                    if (!allSame) 
+                        continue;
+
+                    // Check columns
+                    for (int c = j; c < j + side; ++c) {
+                        int colSum = colCumsum[i + side - 1][c] - (i > 0 ? colCumsum[i - 1][c] : 0);
+                        if (colSum != targetSum) {
+                            allSame = false;
+                            break;
+                        }
                     }
-                    
-                    // check diagonals
-                    int d1 = 0, d2 = 0;
-                    for (int t = 0; t < k; t++) {
-                        d1 += grid[i + t][j + t];
-                        d2 += grid[i + t][j + k - 1 - t];
+                    if (!allSame) 
+                        continue;
+
+                    // Check diagonals
+                    int diag     = 0;
+                    int antiDiag = 0;
+                    for (int k = 0; k < side; ++k) {
+                        diag += grid[i + k][j + k];
+                        antiDiag += grid[i + k][j + side - 1 - k];
                     }
-                    
-                    if (ok && d1 == target && d2 == target)
-                        return k;
+
+                    if (diag == targetSum && antiDiag == targetSum) {
+                        return side;
+                    }
                 }
             }
         }
-        
+
         return 1;
     }
 };
+
+
