@@ -1,51 +1,36 @@
 class Solution {
 public:
     int maxSideLength(vector<vector<int>>& mat, int threshold) {
-        int rows = mat.size();
-        int cols = mat[0].size();
+        int n = mat.size();
+        int m = mat[0].size();
 
-        vector<vector<int>> prefix(rows, vector<int>(cols, 0));
+        vector<vector<int>> pre(n + 1, vector<int>(m + 1, 0));
 
-        // Build prefix sum
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                prefix[i][j] = mat[i][j]
-                             + (i > 0 ? prefix[i - 1][j] : 0)
-                             + (j > 0 ? prefix[i][j - 1] : 0)
-                             - (i > 0 && j > 0 ? prefix[i - 1][j - 1] : 0);
+        // Prefix sum calculation
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                pre[i][j] = pre[i - 1][j] 
+                          + pre[i][j - 1] 
+                          - pre[i - 1][j - 1] 
+                          + mat[i - 1][j - 1];
             }
         }
 
-        // Helper lambda to get sum of square
-        auto sumSquare = [&](int i, int j, int r2, int c2) {
-            int sum = prefix[r2][c2];
-                    if (i > 0) sum -= prefix[i - 1][c2];
-                    if (j > 0) sum -= prefix[r2][j - 1];
-                    if (i > 0 && j > 0) sum += prefix[i - 1][j - 1];
-            
-            return sum;
-        };
+        // Try square sizes from largest to smallest
+        for (int k = min(n, m) - 1; k >= 0; k--) {
+            for (int i = 1; i + k <= n; i++) {
+                for (int j = 1; j + k <= m; j++) {
+                    int sum = pre[i + k][j + k]
+                            - pre[i + k][j - 1]
+                            - pre[i - 1][j + k]
+                            + pre[i - 1][j - 1];
 
-        int best = 0;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                for (int k = best; k < min(rows - i, cols - j); k++) { //offset to find bottom right cell
-                    //bottom right cell (r2, c2)
-                    int r2 = i + k;
-                    int c2 = j + k;
-
-                    int sum = sumSquare(i, j, r2, c2);
-
-                    if (sum <= threshold) {
-                        best = k + 1; //(offset + 1) gives the side of square
-                    } else {
-                        break; //because sum will increase only. Better move to next cell
-                    }
+                    if (sum <= threshold)
+                        return k + 1;
                 }
             }
         }
 
-        return best;
+        return 0;
     }
 };
