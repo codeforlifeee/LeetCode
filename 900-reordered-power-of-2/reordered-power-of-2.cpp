@@ -12,7 +12,7 @@ public:
 
         //check all 2 powers and see if it matches with s
         //2^29
-        for(int p = 0; p <= 29; p++) {
+        for(int p = 0; p <=31; p++) {
             if(s == getSortedStr(1 << p)) {
                 return true;
             }
