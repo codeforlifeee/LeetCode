@@ -11,7 +11,10 @@ public:
     }
 
     bool noZero(int x) {
-        string s = to_string(x);
-        return s.find('0') == string::npos;
+        while (x > 0) {
+            if (x % 10 == 0) return false;
+            x /= 10;
+        }
+        return true;
     }
 };
