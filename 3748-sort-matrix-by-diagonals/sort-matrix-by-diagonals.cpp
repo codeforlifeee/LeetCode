@@ -1,43 +1,36 @@
 class Solution {
-public:
+private:
     int n;
-    void sortDiagonal(int r, int c, vector<vector<int>>& grid, bool asc) {
-        vector<int> vec; //diagonal elements starting from [r][c]
+    map<int, vector<int>> diag;
 
-        int i = r;
-        int j = c;
-
-        while(i < n && j < n) {
-            vec.push_back(grid[i][j]);
-            i++;
-            j++;
-        }
-
-        if(asc) {
-            sort(begin(vec), end(vec));
-        } else {
-            sort(rbegin(vec), rend(vec));
-        }
-
-        i = r;
-        j = c;
-        for(int &val : vec) {
-            grid[i][j] = val;
-            i++;
-            j++;
-        }
-    }
-
+public:
     vector<vector<int>> sortMatrix(vector<vector<int>>& grid) {
         n = grid.size();
-        //Bottom Left - Non-Increasing Order
-        for(int row = 0; row < n; row++) {
-            sortDiagonal(row, 0, grid, false);
+
+        // Step 1: Group elements by diagonal (i - j)
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                diag[i - j].push_back(grid[i][j]);
+            }
         }
-        //Top Right - Non-Decreasing Order
-        for(int col = 1; col < n; col++) {
-            sortDiagonal(0, col, grid, true);
+
+        // Step 2: Sort each diagonal
+        for (auto &it : diag) {
+            if (it.first >= 0)
+                sort(it.second.begin(), it.second.end(), greater<int>()); // bottom-left
+            else
+                sort(it.second.begin(), it.second.end()); // top-right
         }
+
+        // Step 3: Put values back into grid
+        map<int, int> idx;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int key = i - j;
+                grid[i][j] = diag[key][idx[key]++];
+            }
+        }
+
         return grid;
     }
 };
