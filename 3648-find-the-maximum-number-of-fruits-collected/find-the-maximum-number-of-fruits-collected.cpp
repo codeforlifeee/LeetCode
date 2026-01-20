@@ -23,7 +23,7 @@ public:
             return 0;
         }
         
-        //can't go beyond diagonal or left to diagonal (only have n-1 moves)
+        // //can't go beyond diagonal or left to diagonal (only have n-1 moves)
         if (i == j || i > j) {
             return 0;
         }
