@@ -1,17 +1,25 @@
 class Solution {
 public:
     vector<int> findKDistantIndices(vector<int>& nums, int key, int k) {
-        set<int> st;
-        int n = nums.size();
+        vector<int> find;
+        int n=nums.size();
 
-        for (int j = 0; j < n; j++) {
-            if (nums[j] == key) {
-                for (int i = max(0, j - k); i <= min(n - 1, j + k); i++) {
+        for(int i=0;i<n;i++){
+            if(nums[i]==key){
+                find.push_back(i);
+            }
+        }
+        unordered_set<int>st;
+        for(auto it:find){
+            for(int i=0;i<n;i++){
+                if(abs(i-it) <=k ){
                     st.insert(i);
                 }
             }
         }
-
-        return vector<int>(st.begin(), st.end());
+        vector<int>result (st.begin(),st.end());
+        sort(result.begin(),result.end());
+        return result;
     }
 };
+
