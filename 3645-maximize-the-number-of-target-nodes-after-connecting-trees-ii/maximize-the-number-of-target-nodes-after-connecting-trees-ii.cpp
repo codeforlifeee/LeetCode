@@ -1,40 +1,66 @@
+//S.C : O(V+E)
 class Solution {
 public:
-    int dfs(int node, int parent, int depth,
-            const vector<vector<int>>& children, vector<int>& color) {
-        int res = 1 - depth % 2;
-        color[node] = depth % 2;
-        for (int child : children[node]) {
-            if (child == parent) {
-                continue;
+    unordered_map<int, vector<int>> getAdj(vector<vector<int>>& edges) {
+        unordered_map<int, vector<int>> adj;
+        for(auto &edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        return adj;
+    }
+
+    //O(V+E)
+    void dfs(int curr, unordered_map<int, vector<int>>& adj, int parent, vector<int>& mark, 
+        int &zeroMarkedCount, int& oneMarkedCount) {
+
+        if(mark[curr] == 0) {
+            zeroMarkedCount++;
+        } else {
+            oneMarkedCount++;
+        }
+
+        for(auto &ngbr : adj[curr]) {
+            if(ngbr != parent) {
+                mark[ngbr] = (mark[curr] == 0) ? 1 : 0; //alternate marking
+                dfs(ngbr, adj, curr, mark, zeroMarkedCount, oneMarkedCount);
             }
-            res += dfs(child, node, depth + 1, children, color);
         }
-        return res;
     }
 
-    vector<int> build(const vector<vector<int>>& edges, vector<int>& color) {
-        int n = edges.size() + 1;
-        vector<vector<int>> children(n);
-        for (const auto& edge : edges) {
-            children[edge[0]].push_back(edge[1]);
-            children[edge[1]].push_back(edge[0]);
-        }
-        int res = dfs(0, -1, 0, children, color);
-        return {res, n - res};
-    }
+    vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2) {
+        int N = edges1.size()+1; // Tree A
+        int M = edges2.size()+1; // Tree B
 
-    vector<int> maxTargetNodes(vector<vector<int>>& edges1,
-                               vector<vector<int>>& edges2) {
-        int n = edges1.size() + 1, m = edges2.size() + 1;
-        vector<int> color1(n);
-        vector<int> color2(m);
-        vector<int> count1 = build(edges1, color1);
-        vector<int> count2 = build(edges2, color2);
-        vector<int> res(edges1.size() + 1);
-        for (int i = 0; i < n; i++) {
-            res[i] = count1[color1[i]] + max(count2[0], count2[1]);
+        unordered_map<int, vector<int>> adjA = getAdj(edges1); //O(V1+E1)
+        unordered_map<int, vector<int>> adjB = getAdj(edges2); //O(V2+E2)
+
+        vector<int> markA(N, -1);
+        markA[0] = 0; //mark 0th node as 0
+        int zeroMarkedCountA = 0;
+        int oneMarkedCountA  = 0;
+        dfs(0, adjA, -1, markA, zeroMarkedCountA, oneMarkedCountA); //O(V+E)
+
+
+        vector<int> markB(M, -1);
+        markB[0] = 0; //mark 0th node as 0
+        int zeroMarkedCountB = 0;
+        int oneMarkedCountB  = 0;
+        dfs(0, adjB, -1, markB, zeroMarkedCountB, oneMarkedCountB); //O(V+E)
+
+        int maxFromTree2 = max(zeroMarkedCountB, oneMarkedCountB);
+
+        vector<int> result(N);
+        for(int i = 0; i < N; i++) { //O(V)
+            result[i] = (markA[i] == 0 ? zeroMarkedCountA : oneMarkedCountA) + maxFromTree2;
         }
-        return res;
+
+        return result;
+
+        
     }
 };
