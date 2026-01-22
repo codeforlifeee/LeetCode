@@ -1,4 +1,3 @@
-//S.C : O(V+E)
 class Solution {
 public:
     unordered_map<int, vector<int>> getAdj(vector<vector<int>>& edges) {
@@ -64,3 +63,4 @@ public:
         
     }
 };
+
