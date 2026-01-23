@@ -38,5 +38,3 @@ public:
         return minWindow == INT_MAX ? "" : s.substr(minStart, minWindow);
     }
 };
-
-
