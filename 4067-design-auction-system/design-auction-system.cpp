@@ -26,11 +26,7 @@ public:
     
     void updateBid(int userId, int itemId, int newAmount) {
         auto key = make_pair(userId, itemId);
-        
-        // Remove old bid
         itemBids[itemId].erase(userBids[key]);
-        
-        // Add updated bid
         auto bidPair = make_pair(newAmount, userId);
         itemBids[itemId].insert(bidPair);
         userBids[key] = bidPair;
