@@ -9,7 +9,6 @@ public:
     AuctionSystem() {
         
     }
-    
     void addBid(int userId, int itemId, int bidAmount) {
         auto key = make_pair(userId, itemId);
         
