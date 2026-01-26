@@ -1,8 +1,6 @@
 class AuctionSystem {
 private:
-    // itemId -> set of (bidAmount, userId) sorted
     unordered_map<int, set<pair<int, int>>> itemBids;
-    // (userId, itemId) -> (bidAmount, userId) for quick lookup
     map<pair<int, int>, pair<int, int>> userBids;
     
 public:
