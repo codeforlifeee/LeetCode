@@ -1,20 +1,29 @@
 class Solution {
 public:
-    int coinChange(vector<int>& coins, int amount) {
-        // dp[i] will be storing the minimum number of coins required for amount i
-        vector<int> dp(amount + 1, INT_MAX);
-        dp[0] = 0;  // base case: 0 coins needed for amount 0
+    int solve(int idx, int amount, vector<int>& coins, vector<vector<int>>& dp) {
+        // base cases
+        if (amount == 0) return 0;
+        if (idx == coins.size()) return 1e9; // impossible
 
-        for (int i = 1; i <= amount; i++) {
-            for (int coin : coins) {
-                if (coin <= i && dp[i - coin] != INT_MAX) {
-                    dp[i] = min(dp[i], dp[i - coin] + 1);
-                }
-            }
+        if (dp[idx][amount] != -1) return dp[idx][amount];
+
+        int take = 1e9;
+        if (coins[idx] <= amount) {
+            // take: stay on same index (unbounded use)
+            take = 1 + solve(idx, amount - coins[idx], coins, dp);
         }
 
-        return dp[amount] == INT_MAX ? -1 : dp[amount];
+        // skip: move to next index
+        int skip = solve(idx + 1, amount, coins, dp);
 
-        
+        return dp[idx][amount] = min(take, skip);
+    }
+
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
+
+        int ans = solve(0, amount, coins, dp);
+        return ans >= 1e9 ? -1 : ans;
     }
 };
