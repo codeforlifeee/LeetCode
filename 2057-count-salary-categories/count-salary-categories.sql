@@ -1,4 +1,4 @@
-SELECT c.category, COALESCE(COUNT(a.income), 0) AS accounts_count
+SELECT c.category, COUNT(a.income) AS accounts_count
 FROM (
     SELECT 'Low Salary' AS category
     UNION ALL
