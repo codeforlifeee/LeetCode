@@ -3,14 +3,14 @@ WITH all_ids AS (
    FROM RequestAccepted
    UNION ALL
    SELECT accepter_id AS id
-   FROM RequestAccepted)
+   FROM RequestAccepted
+)
 SELECT id, num
-FROM 
-   (
+FROM (
    SELECT id, 
-      COUNT(id) AS num, 
-      RANK () OVER(ORDER BY COUNT(id) DESC) AS rnk
+          COUNT(id) AS num, 
+          RANK() OVER (ORDER BY COUNT(id) DESC) AS rnk
    FROM all_ids
    GROUP BY id
-   )t0
-WHERE rnk=1
+) t0
+WHERE rnk = 1;
