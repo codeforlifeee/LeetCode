@@ -1,18 +1,16 @@
 class Solution {
 public:
-    int t[46];
+    int dp[10001];
 
-    int solve(int n){
-        if (n == 0 || n == 1) return 1;  // base cases
-        if(t[n] != -1) return t[n];
-        int ways = solve(n-1) + solve(n-2);
-
-        return t[n] = ways;
+    Solution() {
+        memset(dp, -1, sizeof(dp));
     }
 
     int climbStairs(int n) {
-        memset(t,-1,sizeof(t));
-        return solve(n);
-        
+        if (n <= 2) return n;
+
+        if (dp[n] != -1) return dp[n];
+
+        return dp[n] = climbStairs(n - 1) + climbStairs(n - 2);
     }
 };
