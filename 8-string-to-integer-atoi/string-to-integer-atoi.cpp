@@ -5,28 +5,23 @@ using namespace std;
 class Solution {
 public:
     int myAtoi(string s) {
-        int i = 0, sign = 1;
-        long res = 0; // Using long to handle overflow cases
+            int i = 0, n = s.size();
+    while (i < n && s[i] == ' ') i++; // Skip leading spaces
 
-        // Trim leading spaces
-        while (i < s.size() && s[i] == ' ') i++;
-        if (i == s.size()) return 0;
+    int sign = 1;
+    if (i < n && (s[i] == '-' || s[i] == '+')) {
+        sign = (s[i] == '-') ? -1 : 1;
+        i++;
+    }
 
-        // Check for sign
-        if (s[i] == '-') { sign = -1; i++; }
-        else if (s[i] == '+') i++;
+    long long num = 0;
+    while (i < n && isdigit(s[i])) {
+        num = num * 10 + (s[i] - '0');
+        if (num * sign >= INT_MAX) return INT_MAX;
+        if (num * sign <= INT_MIN) return INT_MIN;
+        i++;
+    }
+    return num * sign;
 
-        // Process numerical characters
-        while (i < s.size() && isdigit(s[i])) {
-            res = res * 10 + (s[i] - '0');
-
-            // Handle overflow
-            if (sign * res > INT_MAX) return INT_MAX;
-            if (sign * res < INT_MIN) return INT_MIN;
-
-            i++;
-        }
-
-        return (int)(sign * res);
     }
 };
