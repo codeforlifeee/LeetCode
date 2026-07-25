@@ -1,21 +1,18 @@
-#include <string>
-#include <algorithm>
-using namespace std;
-
 class Solution {
-public:
-    int maxProduct(int n) {
-        int maxi = -1;
-        string str = to_string(n);
-
-        for (int i = 0; i < str.length(); i++) {
-            for (int j = i + 1; j < str.length(); j++) {
-                int d1 = str[i] - '0';
-                int d2 = str[j] - '0';
-                maxi = max(maxi, d1 * d2);
+    public:
+     int maxProduct(int n) {
+        int max1 = -1 , max2 = -1;
+        while(n != 0){
+            int rem = n % 10;
+            if(max1 <= rem){
+                max2 = max1;
+                max1 = rem;
             }
+            else if(max2 < rem){
+                max2 = rem;
+            }
+            n /= 10;
         }
-
-        return maxi;
+        return max1 * max2;
     }
 };
