@@ -21,15 +21,14 @@ public:
                 q.pop();
 
                 for (int nei : graph[node]) {
-                    if (color[nei] == -1) {
-                        color[nei] = 1 - color[node];
+                    if (color[nei] == -1) { // not coloured
+                        color[nei] = 1 - color[node]; // then we are flipping the colour of that node
                         q.push(nei);
-                    } else if (color[nei] == color[node]) {
+                    } else if (color[nei] == color[node]) { // if the colour of the two adjacent nodes is same then it is not bipartite
+                    // hence we are returing false as our answer
                         return false;
                     }
                 }
-
-
                 }
             }
         }
