@@ -15,6 +15,8 @@ public:
             q.push(i);
 
             while (!q.empty()) {
+                int size= q.size();
+                while(size--){
                 int node = q.front();
                 q.pop();
 
@@ -25,6 +27,9 @@ public:
                     } else if (color[nei] == color[node]) {
                         return false;
                     }
+                }
+
+
                 }
             }
         }
