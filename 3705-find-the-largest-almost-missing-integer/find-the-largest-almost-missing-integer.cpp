@@ -1,29 +1,44 @@
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
 class Solution {
 public:
     int largestInteger(vector<int>& nums, int k) {
         int n = nums.size();
-        if (n == k) {
-            return *max_element(nums.begin(), nums.end());
-        }
-        int count[51] = {0};
+        unordered_map<int, int> counts;
         for (int x : nums) {
-            count[x]++;
+            counts[x]++;
         }
+
         if (k == 1) {
-            for (int i = 50; i >= 0; --i) {
-                if (count[i] == 1) {
-                    return i;
+            int ans = -1;
+            for (auto& [val, count] : counts) {
+                if (count == 1) {
+                    ans = max(ans, val);
                 }
             }
-            return -1;
+            return ans;
         }
-        int res = -1;
-        if (count[nums[0]] == 1) {
-            res = max(res, nums[0]);
+
+        if (k == n) {
+            int ans = -1;
+            for (int x : nums) {
+                ans = max(ans, x);
+            }
+            return ans;
         }
-        if (count[nums.back()] == 1) {
-            res = max(res, nums.back());
+
+        int ans = -1;
+        if (counts[nums[0]] == 1) {
+            ans = max(ans, nums[0]);
         }
-        return res;
+        if (counts[nums[n - 1]] == 1) {
+            ans = max(ans, nums[n - 1]);
+        }
+
+        return ans;
     }
 };
