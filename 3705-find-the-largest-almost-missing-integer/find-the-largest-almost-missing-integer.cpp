@@ -2,24 +2,28 @@ class Solution {
 public:
     int largestInteger(vector<int>& nums, int k) {
         int n = nums.size();
-        if (k > n) return -1;
-        
-        unordered_map<int, int> freq;
-        
-        for (int i = 0; i <= n - k; i++) {
-            unordered_set<int> unique_nums(nums.begin() + i, nums.begin() + i + k);
-            for (int num : unique_nums) {
-                freq[num]++;
-            }
+        if (n == k) {
+            return *max_element(nums.begin(), nums.end());
         }
-
-        int result = -1;
-        for (const auto& [num, count] : freq) {
-            if (count == 1) {
-                result = max(result, num);
-            }
+        int count[51] = {0};
+        for (int x : nums) {
+            count[x]++;
         }
-        
-        return result;
+        if (k == 1) {
+            for (int i = 50; i >= 0; --i) {
+                if (count[i] == 1) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        int res = -1;
+        if (count[nums[0]] == 1) {
+            res = max(res, nums[0]);
+        }
+        if (count[nums.back()] == 1) {
+            res = max(res, nums.back());
+        }
+        return res;
     }
 };
