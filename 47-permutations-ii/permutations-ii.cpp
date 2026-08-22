@@ -2,7 +2,10 @@ class Solution {
 public:
     vector<int>p;
     vector<bool>vis;
-    set<vector<int>>res;
+    // we are using here set
+    // we aim to use vector<Vector<int>> res;
+    // adjacent elements are  equal so we can skip those
+    vector<vector<int>>res;
 
 
     vector<vector<int>> permuteUnique(vector<int>& nums) {
@@ -11,24 +14,30 @@ public:
         res.clear();
         vis.assign(nums.size(), false);
 
+        sort(nums.begin(), nums.end());
+
         
          solve(nums,p,vis, res);
-        vector<vector<int>> finalResult;
+
+        // vector<vector<int>> finalResult;
 
 
-        for(auto it : res){
-            finalResult.push_back(it);
-        }
-        return finalResult;
+        // for(auto it : res){
+        //     finalResult.push_back(it);
+        // }
+        // return finalResult;
+        return res;
     }
 
     
 
-void solve(vector<int>&nums, vector<int>& p, vector<bool>& vis, set<vector<int>>& res){
-    if(p.size() == nums.size()) { res.insert(p); return;}
+void solve(vector<int>&nums, vector<int>& p, vector<bool>& vis, vector<vector<int>>& res){
+    if(p.size() == nums.size()) { res.push_back(p); return;}
 
     for(int i = 0; i< nums.size(); i++){
-        if(!vis[i]){
+
+        if(vis[i]  || (i > 0 && nums[i] == nums[i-1] && !vis[i-1])) continue;
+        // if(!vis[i]){
             vis[i] = true;
 
             p.push_back(nums[i]);
@@ -41,7 +50,7 @@ void solve(vector<int>&nums, vector<int>& p, vector<bool>& vis, set<vector<int>>
             vis[i] = false;
 
             p.pop_back();
-        }
+        // }
     }
 }
 
