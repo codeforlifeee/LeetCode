@@ -105,3 +105,6 @@ void solve(vector<int>&nums, vector<int>& p, vector<bool>& vis, vector<vector<in
 
 // // i = 0  , i = 1 skiping nums[1] == nums[0] & !vis[0]
 
+
+// tiem complexity will be O(N* N!)
+// space : O(N) i.e the recursion stack
